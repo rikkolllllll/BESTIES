@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Fast - Middle School Education</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e0f7fa; /* Soft light blue background */
+            color: #607d8b; /* Soft grey text */
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        header {
+            background-color: #4f8a8b; /* Soft teal header */
+            color: white;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        header .button {
+            background-color: #6a8d92; /* Muted teal button */
+            color: white;
+            padding: 12px 18px;
+            margin: 10px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        header .button:hover {
+            background-color: #507a7b; /* Slightly darker teal on hover */
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            padding: 12px;
+            width: 300px;
+            border-radius: 8px;
+            border: 1px solid #6a8d92;
+            font-size: 16px;
+            outline: none;
+            background-color: #ffffff; /* White background for search */
+        }
+
+        .search-bar::placeholder {
+            color: #607d8b; /* Soft grey placeholder */
+        }
+
+        .lesson-container {
+            display: none;
+        }
+
+        h1 {
+            color: #4f8a8b;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .lesson {
+            background-color: #ffffff; /* White background for lessons */
+            padding: 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-section {
+            margin-top: 30px;
+        }
+
+        .quiz-container {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f1f1f1; /* Soft grey background for quiz */
+        }
+
+        .quiz-option {
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            background-color: #6a8d92; /* Soft teal option */
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: #507a7b;
+        }
+
+        .quiz-button {
+            background-color: #4f8a8b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz-button:hover {
+            background-color: #507a7b;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+            color: #4f8a8b;
+        }
+
+        .home-content {
+            margin-top: 50px;
+            font-size: 18px;
+            color: #607d8b;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .home-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4f8a8b;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .star {
+            font-size: 30px;
+            cursor: pointer;
+            color: #f1c40f;
+        }
+
+        .star:hover {
+            color: #f39c12;
+        }
+
+        .question-form {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff; /* Light grey background for question form */
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-form input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #6a8d92;
+        }
+
+        .question-form button {
+            background-color: #4f8a8b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .question-form button:hover {
+            background-color: #507a7b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #4f8a8b;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6a8d92;
+            color: white;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <button class="button" onclick="loadHome()">Home</button>
+    <button class="button" onclick="loadSubject('math')">Math</button>
+    <button class="button" onclick="loadSubject('science')">Science</button>
+    <button class="button" onclick="loadSubject('history')">History</button>
+    <button class="button" onclick="loadSubject('english')">English</button>
+    <button class="button" onclick="loadSubject('geography')">Geography</button>
+    <button class="button" onclick="loadSubject('art')">Art</button>
+    <button class="button" onclick="loadSubject('pe')">Physical Education</button>
+</header>
+
+<div class="container">
+    <div id="home-content" class="home-content">
+        <h2>Welcome to our website</h2>
+        <p>We are the team besties. And we'll help you study and learn fasdter than anything!</p>
+        <p>Study smarter, not harder!</p>
+        <div class="rating">
+            <span class="star" onclick="rate(1)">&#9733;</span>
+            <span class="star" onclick="rate(2)">&#9733;</span>
+            <span class="star" onclick="rate(3)">&#9733;</span>
+            <span class="star" onclick="rate(4)">&#9733;</span>
+            <span class="star" onclick="rate(5)">&#9733;</span>
+        </div>
+    </div>
+
+    <input class="search-bar" type="text" id="search-bar" placeholder="Search for lessons..." oninput="filterLessons()">
+    <h1>Learn Fast - Middle School Education</h1>
+    <div id="lesson-container" class="lesson-container"></div>
+
+    <div class="question-form">
+        <h3>Have a question? Ask us!</h3>
+        <input type="text" id="student-question" placeholder="Ask your question here">
+        <button onclick="submitQuestion()">Submit Question</button>
+    </div>
+
+    <button id="quiz-btn" class="quiz-button" style="display:none;" onclick="submitQuiz()">Submit Quiz</button>
+    <div id="quiz-container" class="quiz-section"></div>
+    <div id="result-container" class="result"></div>
+</div>
+
+<script>
+// Lesson Content for Subjects
+const lessons = {
+    math: {
+        content: `
+            <h2>Math: Basic Addition and Subtraction</h2>
+            <p>Addition and subtraction are basic mathematical operations that are the foundation for other complex mathematical concepts.</p>
+            <h3>Addition Table</h3>
+            <table>
+                <tr><th>Number 1</th><th>Number 2</th><th>Sum</th></tr>
+                <tr><td>2</td><td>3</td><td>5</td></tr>
+                <tr><td>5</td><td>7</td><td>12</td></tr>
+                <tr><td>10</td><td>15</td><td>25</td></tr>
+            </table>
+
+            <h3>Subtraction Table</h3>
+            <table>
+                <tr><th>Number 1</th><th>Number 2</th><th>Difference</th></tr>
+                <tr><td>7</td><td>3</td><td>4</td></tr>
+                <tr><td>10</td><td>5</td><td>5</td></tr>
+                <tr><td>15</td><td>10</td><td>5</td></tr>
+            </table>
+
+            <h3>Visual Aid: Number Line</h3>
+            <img src="https://cdn1.byjus.com/wp-content/uploads/2021/03/Number-Lines.png" alt="Number Line" />
+        `,
+        quiz: [
+            {
+                question: "What is 2 + 3?",
+                options: ["5", "6", "4"],
+                answer: "5"
+            },
+            {
+                question: "What is 12 - 7?",
+                options: ["5", "6", "7"],
+                answer: "5"
+            }
+        ]
+    },
+    science: {
+        content: `
+            <h2>Science: States of Matter</h2>
+            <p>There are three primary states of matter: Solid, Liquid, and Gas.</p>
+            <h3>Table of States of Matter</h3>
+            <table>
+                <tr><th>State</th><th>Characteristics</th></tr>
+                <tr><td>Solid</td><td>Fixed shape and volume</td></tr>
+                <tr><td>Liquid</td><td>Fixed volume, but shape changes</td></tr>
+                <tr><td>Gas</td><td>Neither fixed shape nor volume</td></tr>
+            </table>
+
+            <h3>Diagram: States of Water</h3>
+            <img src="https://i.pinimg.com/736x/23/7f/3d/237f3dfd0ea31933b99ae3d4a20bd7b5.jpg" alt="States of Water" />
+        `,
+        quiz: [
+            {
+                question: "Which state of matter has a fixed volume?",
+                options: ["Solid", "Gas", "Liquid"],
+                answer: "Liquid"
+            },
+            {
+                question: "Which state of matter has neither a fixed shape nor a fixed volume?",
+                options: ["Gas", "Liquid", "Solid"],
+                answer: "Gas"
+            }
+        ]
+    },
+    history: {
+        content: `
+            <h2>History: Ancient Civilizations</h2>
+            <p>Learn about the great civilizations that shaped the world.</p>
+            <h3>Ancient Egypt</h3>
+            <p>The Ancient Egyptians are known for their pyramids, mummification, and their powerful pharaohs. One of the most famous leaders was Tutankhamun.</p>
+            <h3>Ancient Rome</h3>
+            <p>The Roman Empire expanded across Europe, influencing law, language, and government systems that are still used today. </p>
+            <h4>Ancient Rome</h4>
+            <img src="https://cdn.britannica.com/45/196945-050-CCF8BD72/Temple-of-Saturn-Arch-Septimius-Severus-Forum.jpg">
+        `,
+        quiz: [
+            {
+                question: "Who was the famous pharaoh of Ancient Egypt?",
+                options: ["Tutankhamun", "Cleopatra", "Julius Caesar"],
+                answer: "Tutankhamun"
+            },
+            {
+                question: "Which empire controlled much of Europe during the ancient times?",
+                options: ["The Greek Empire", "The Roman Empire", "The Ottoman Empire"],
+                answer: "The Roman Empire"
+            }
+        ]
+    },
+    english: {
+        content: `
+            <h2>English: Grammar Basics</h2>
+            <p>Learn the foundational grammar rules for better writing and speaking skills.</p>
+            <h3>Parts of Speech</h3>
+            <p>The main parts of speech are nouns, verbs, adjectives, and adverbs. Each part has a unique role in sentence construction.</p>
+            <h3>Examples of Sentences</h3>
+            <p>In the sentence "The cat quickly ran across the street," "cat" is the noun, "ran" is the verb, "quickly" is the adverb, and "across" is a preposition.</p>
+            <h4>Verb, Noun and Adjectives</h4>
+            <img src="https://i.ytimg.com/vi/3ltJr7wSTw8/maxresdefault.jpg">
+        `,
+        quiz: [
+            {
+                question: "Which word is a noun?",
+                options: ["quickly", "cat", "ran"],
+                answer: "cat"
+            },
+            {
+                question: "Which word is an adverb?",
+                options: ["quickly", "ran", "across"],
+                answer: "quickly"
+            }
+        ]
+    },
+    geography: {
+        content: `
+            <h2>Geography: Continents of the World</h2>
+            <p>There are seven continents: Africa, Antarctica, Asia, Australia, Europe, North America, and South America.</p>
+            <h3>World Map</h3>
+            <img src="https://geology.com/world/world-map.gif" alt="World Map" />
+            <h3>Continents and Oceans</h3>
+            <p>Each continent is bordered by oceans, and together they make up the Earth's surface.</p>
+        `,
+        quiz: [
+            {
+                question: "Which is the largest continent?",
+                options: ["Africa", "Asia", "North America"],
+                answer: "Asia"
+            },
+            {
+                question: "Which continent is known for its vast deserts and wildlife?",
+                options: ["Africa", "Australia", "South America"],
+                answer: "Africa"
+            }
+        ]
+    },
+    art: {
+        content: `
+            <h2>Art: Introduction to Painting</h2>
+            <p>Learn about the different styles of painting, including realism, abstraction, and expressionism.</p>
+            <h3>Famous Artists</h3>
+            <p>Leonardo da Vinci, Pablo Picasso, and Vincent van Gogh are famous for their contributions to art.</p>
+            <h3>Painting Techniques</h3>
+            <p>Watercolor, oil painting, and acrylic painting are popular techniques.</p>
+            <h4>Mone LIsa</h4>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/270px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg">
+        `,
+        quiz: [
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh"],
+                answer: "Leonardo da Vinci"
+            },
+            {
+                question: "What technique uses water-based paint?",
+                options: ["Oil painting", "Watercolor", "Acrylic painting"],
+                answer: "Watercolor"
+            }
+        ]
+    },
+    pe: {
+        content: `
+            <h2>Physical Education: Healthy Lifestyle</h2>
+            <p>Physical activity is essential for maintaining a healthy lifestyle. Regular exercise improves strength, flexibility, and overall well-being.</p>
+            <h3>Exercise Types</h3>
+            <p>Cardio, strength training, and flexibility exercises are the three main types of physical activity.</p>
+            <h4>Stretching</h4>
+            <img src="https://thefitnessfocus.com/wp-content/uploads/2013/11/stretches.jpg">
+        `,
+        quiz: [
+            {
+                question: "Which exercise is best for building strength?",
+                options: ["Cardio", "Strength training", "Yoga"],
+                answer: "Strength training"
+            },
+            {
+                question: "Which activity is great for improving flexibility?",
+                options: ["Yoga", "Jogging", "Swimming"],
+                answer: "Yoga"
+            }
+        ]
+    }
+};
+
+// Handle Quiz Submission
+let currentQuiz = null;
+
+function loadSubject(subject) {
+    document.getElementById('home-content').style.display = 'none';
+    document.getElementById('lesson-container').style.display = 'block';
+    document.getElementById('lesson-container').innerHTML = lessons[subject].content;
+
+    currentQuiz = lessons[subject].quiz;
+    generateQuiz(currentQuiz);
+}
+
+function generateQuiz(quiz) {
+    let quizHTML = `
+        <h3>Quiz</h3>
+        <div class="quiz-container">`;
+    
+    quiz.forEach((q, index) => {
+        quizHTML += `
+            <p><strong>${index + 1}. ${q.question}</strong></p>
+            <div class="quiz-option" onclick="checkAnswer('${q.answer}', '${q.options[0]}')">${q.options[0]}</div>
+            <div class="quiz-option" onclick="checkAnswer('${q.answer}', '${q.options[1]}')">${q.options[1]}</div>
+            <div class="quiz-option" onclick="checkAnswer('${q.answer}', '${q.options[2]}')">${q.options[2]}</div>
+        `;
+    });
+
+    quizHTML += `</div>`;
+    document.getElementById('quiz-container').innerHTML = quizHTML;
+    document.getElementById('quiz-btn').style.display = 'block';
+}
+
+let score = 0;
+
+function checkAnswer(correctAnswer, selectedAnswer) {
+    if (correctAnswer === selectedAnswer) {
+        score++;
+    }
+}
+
+function submitQuiz() {
+    document.getElementById('result-container').innerHTML = `Your score: ${score} / ${currentQuiz.length}`;
+    score = 0;
+    document.getElementById('quiz-btn').style.display = 'none';
+    document.getElementById('quiz-container').innerHTML = '';
+}
+
+function loadHome() {
+    document.getElementById('home-content').style.display = 'block';
+    document.getElementById('lesson-container').style.display = 'none';
+}
+
+function submitQuestion() {
+    let question = document.getElementById('student-question').value;
+    alert(`Your question: "${question}" has been submitted!`);
+}
+</script>
+
+</body>
+</html>
